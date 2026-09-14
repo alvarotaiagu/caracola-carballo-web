@@ -29,8 +29,12 @@ placeholders por:
   `AggregateRating` del JSON-LD y en la imagen OG).
 - **3 reseñas reales**, citadas tal cual (Yoli García Sánchez, Bego,
   Javier Vilariño) en `#resenas`.
-- **Mapa real** en `#contacto` (`iframe` de Google Maps sobre la
-  dirección de arriba, sin API key).
+- **Mapa real** en `#contacto` sobre la dirección de arriba, sin API key
+  — el `iframe` de Google Maps solo se crea al pulsar "Cargar el mapa"
+  (`.map-consent` / `initMapConsent()` en `js/main.js`), igual que en el
+  resto de webs hermanas, para que el aviso de cookies pueda seguir
+  diciendo "sin cookies de terceros" mientras no se pida el mapa
+  explícitamente.
 - **Contenido de `#carta` y `#destacado`**: no se recibió una carta con
   platos y precios, así que esas secciones se redactaron a partir de lo
   que las propias reseñas describen de forma consistente (café y pinchos

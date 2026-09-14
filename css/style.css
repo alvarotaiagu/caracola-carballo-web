@@ -396,7 +396,17 @@ section { position: relative; padding: 7rem 0; }
   text-align: center; padding: 2rem; background: var(--noche-2);
 }
 .map-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 1.2rem; }
-.map-card .map-consent { color: var(--laton-tenue); font-size: 0.95rem; }
+.map-consent {
+  width: 100%; height: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.6rem;
+  color: var(--laton-tenue); font-family: var(--sans); font-weight: 600; font-size: 0.98rem;
+  transition: color 0.25s var(--ease);
+}
+.map-consent:hover, .map-consent:focus-visible { color: var(--laton-vivo); }
+.map-consent-icon { font-size: 1.8rem; }
+.map-consent-note {
+  font-weight: 400; font-size: 0.78rem; color: var(--hueso-mas-tenue); max-width: 18rem;
+}
 
 /* ---------- Pie ---------- */
 .site-footer { border-top: 1px solid var(--linea-suave); padding: 3.5rem 0 2.5rem; background: var(--noche); }

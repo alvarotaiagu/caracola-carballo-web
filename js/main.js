@@ -88,6 +88,28 @@ function initCallFab() {
 }
 initCallFab();
 
+/* ---------- Mapa: el iframe de Google (y sus cookies) solo se carga al
+   pulsar el botón — así el aviso de cookies puede seguir diciendo "sin
+   cookies de terceros" mientras el mapa no se pida explícitamente. */
+function initMapConsent() {
+  document.querySelectorAll(".map-consent").forEach((btn) => {
+    btn.addEventListener(
+      "click",
+      () => {
+        if (!btn.dataset.mapSrc) return;
+        const iframe = document.createElement("iframe");
+        iframe.title = btn.dataset.mapTitle || "Mapa";
+        iframe.src = btn.dataset.mapSrc;
+        iframe.loading = "lazy";
+        iframe.referrerPolicy = "no-referrer-when-downgrade";
+        btn.replaceWith(iframe);
+      },
+      { once: true }
+    );
+  });
+}
+initMapConsent();
+
 /* ---------- Horario: esfera con "abierto ahora" en directo ----------
    Horario real (ficha de Google): L-J 6:30-24:00, V 6:30-1:00, S 8:00-1:00,
    D cerrado. Los cierres "a la 1:00" se tratan como hora 25 para poder
