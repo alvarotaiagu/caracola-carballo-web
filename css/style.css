@@ -115,6 +115,7 @@ body.has-cookie-banner { padding-bottom: 0; }
   display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem;
   box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.45);
 }
+.cookie-banner[hidden] { display: none; }
 .cookie-banner p { font-size: 0.85rem; color: var(--hueso-tenue); flex: 1 1 16rem; }
 .cookie-ack { background: var(--laton); color: var(--tinta-papel); padding: 0.55rem 1.1rem; border-radius: 999px; font-weight: 600; font-size: 0.85rem; }
 
@@ -461,4 +462,16 @@ body.motion-reduced .hero-fallback-glow { display: block; }
   section { padding: 5rem 0; }
   .arc-nav { top: calc(var(--nav-h) - 0.25rem); right: 0.75rem; }
   .spiral-gauge { display: none; }
+
+  /* En móvil el texto ocupa casi todo el ancho del hero y el núcleo del
+     vórtice (fijo en scene-espiral.js al 76% del ancho, pensado para
+     quedar a la derecha de una columna de texto estrecha en escritorio)
+     pasa a caer encima de las líneas — un scrim detrás del texto mantiene
+     la lectura sin apagar la animación de fondo. */
+  .hero-content::before {
+    content: "";
+    position: absolute; z-index: -1; inset: -1.25rem -1rem;
+    background: radial-gradient(130% 100% at 50% 40%, color-mix(in srgb, var(--noche) 80%, transparent) 0%, color-mix(in srgb, var(--noche) 70%, transparent) 65%, color-mix(in srgb, var(--noche) 40%, transparent) 88%, transparent 100%);
+  }
+  .hero-title, .hero-claim { text-shadow: 0 2px 14px color-mix(in srgb, var(--noche) 85%, transparent); }
 }
