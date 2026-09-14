@@ -1,0 +1,462 @@
+/* ---------- Tokens ----------
+   Café-Bar Caracola no facilitó logo propio (no hay web previa) ni datos
+   más allá del nombre y la localidad (ver README). La paleta y el motivo
+   estructural salen de la propia idea de marca elegida para el sitio,
+   confirmada con el usuario: "Caracola nocturna" — noche marina casi negra
+   como color de reposo de TODA la página (no solo el hero) con latón/ámbar
+   de luz de barra como acento, y la espiral logarítmica de una concha como
+   motivo que atraviesa hero, navegación, horario y reseñas — deliberadamente
+   distinta del carbón+ascua de A Lareira, las cremas de Melao/A Taberna do
+   Rio/O Logradouro y el negro+dorado de O Carballo. Sin fuego, sin madera:
+   es mar y noche, no brasa. */
+:root {
+  --noche: #0B0E1A;
+  --noche-2: #121729;
+  --noche-3: #1B2340;
+  --noche-4: #242C4D;
+  --laton: #C9963E;
+  --laton-tenue: #DDBB78;
+  --laton-vivo: #F0CE8C;
+  --mar: #14304A;
+  --mar-vivo: #2A5C82;
+  --hueso: #E8DCC2;
+  --hueso-tenue: #B9AF9A;
+  --hueso-mas-tenue: #7C7565;
+  --papel: #F2ECDD;
+  --papel-2: #E7DEC5;
+  --tinta-papel: #1A1710;
+
+  --linea: color-mix(in srgb, var(--hueso) 14%, transparent);
+  --linea-suave: color-mix(in srgb, var(--hueso) 8%, transparent);
+
+  --display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --sans: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --nav-h: 4.75rem;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body {
+  margin: 0;
+  background: var(--noche);
+  color: var(--hueso);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img, svg, canvas { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+ul { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, h4, p { margin: 0; }
+::selection { background: var(--laton); color: var(--tinta-papel); }
+
+body.has-cookie-banner { padding-bottom: 0; }
+
+.skip-link {
+  position: absolute; left: 1rem; top: -4rem; z-index: 200;
+  background: var(--laton); color: var(--tinta-papel);
+  padding: 0.75rem 1.25rem; border-radius: 999px; font-weight: 600;
+  transition: top 0.25s var(--ease);
+}
+.skip-link:focus { top: 1rem; }
+
+:focus-visible { outline: 2px solid var(--laton-vivo); outline-offset: 3px; }
+
+.container { max-width: 74rem; margin: 0 auto; padding: 0 1.5rem; }
+@media (min-width: 60rem) { .container { padding: 0 2.5rem; } }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  font-family: var(--sans); font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--laton-tenue);
+}
+.eyebrow::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--laton); box-shadow: 0 0 0.6rem var(--laton);
+}
+
+.ghost-word {
+  position: absolute; z-index: 0; font-family: var(--display);
+  font-weight: 600; font-style: italic; color: var(--hueso);
+  opacity: 0.04; pointer-events: none; white-space: nowrap;
+  font-size: clamp(6rem, 18vw, 13rem); user-select: none;
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem;
+  padding: 0.95rem 1.7rem; border-radius: 999px; font-family: var(--sans);
+  font-size: 0.92rem; font-weight: 600; letter-spacing: 0.01em;
+  transition: transform 0.3s var(--ease), background 0.25s var(--ease), border-color 0.25s var(--ease), color 0.25s var(--ease);
+  will-change: transform;
+}
+.btn-primary { background: var(--laton); color: var(--tinta-papel); }
+.btn-primary:hover { background: var(--laton-vivo); }
+.btn-ghost { border: 1.5px solid var(--linea); color: var(--hueso); }
+.btn-ghost:hover, .btn-ghost:focus-visible { border-color: var(--laton); color: var(--laton-tenue); }
+.btn[aria-disabled="true"] {
+  opacity: 0.5; cursor: not-allowed; pointer-events: none;
+}
+.btn-note {
+  display: block; margin-top: 0.4rem; font-size: 0.72rem; color: var(--hueso-mas-tenue);
+  font-style: italic; text-align: center;
+}
+
+/* ---------- Cookie banner ---------- */
+.cookie-banner {
+  position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 150;
+  max-width: 34rem; margin: 0 auto; background: var(--noche-3);
+  border: 1px solid var(--linea); border-radius: 1rem; padding: 1.1rem 1.25rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem;
+  box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.45);
+}
+.cookie-banner p { font-size: 0.85rem; color: var(--hueso-tenue); flex: 1 1 16rem; }
+.cookie-ack { background: var(--laton); color: var(--tinta-papel); padding: 0.55rem 1.1rem; border-radius: 999px; font-weight: 600; font-size: 0.85rem; }
+
+/* ---------- Cabecera + nav en arco ----------
+   Séptima familia estructural del workspace: en vez de barra superior con
+   subrayado (Melao), rail lateral de puntos (A Taberna do Rio), overlay a
+   pantalla completa (Melao v2/O Carballo) o cabecera "parrilla" (A Lareira),
+   la marca-espiral de la esquina despliega un ARCO de enlaces que se curva
+   desde el propio botón — el menú literalmente se "desenrolla" como una
+   concha. Ver .arc-nav más abajo y initArcNav en js/main.js. */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 100; height: var(--nav-h);
+  display: flex; align-items: center;
+  background: linear-gradient(180deg, rgba(11,14,26,0.92), rgba(11,14,26,0));
+  transition: background 0.3s var(--ease), backdrop-filter 0.3s var(--ease);
+}
+.site-header.is-scrolled {
+  background: rgba(11,14,26,0.86); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--linea-suave);
+}
+.site-header .container { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+
+.brand { display: inline-flex; align-items: center; gap: 0.65rem; font-family: var(--display); font-weight: 600; font-size: 1.3rem; color: var(--hueso); }
+.brand img { width: 34px; height: 34px; }
+
+.header-actions { display: flex; align-items: center; gap: 0.9rem; }
+.header-actions .btn { padding: 0.7rem 1.3rem; font-size: 0.82rem; }
+.header-actions .btn-ghost { display: none; }
+@media (min-width: 40rem) { .header-actions .btn-ghost { display: inline-flex; } }
+
+.nav-toggle {
+  position: relative; width: 3rem; height: 3rem; border-radius: 50%;
+  border: 1.5px solid var(--linea); display: grid; place-items: center;
+}
+.nav-toggle:hover, .nav-toggle[aria-expanded="true"] { border-color: var(--laton); }
+.nav-toggle svg { width: 22px; height: 22px; }
+.nav-toggle .swirl-path { stroke: var(--laton-tenue); transition: stroke 0.25s var(--ease); }
+.nav-toggle[aria-expanded="true"] .swirl-path { stroke: var(--laton-vivo); }
+
+.arc-nav {
+  position: fixed; top: var(--nav-h); right: 1rem; z-index: 99;
+  width: min(20rem, calc(100vw - 2rem));
+  pointer-events: none;
+}
+/* Pila vertical real (no absoluta): cada enlace es su propia fila, con un
+   leve desplazamiento horizontal decreciente por elemento (nth-child) que
+   sugiere la curva del arco/espiral sin superponer los elementos entre
+   sí — la versión anterior los colocaba todos en el mismo top:0/right:0. */
+.arc-nav-list {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem;
+  pointer-events: auto; padding-top: 0.5rem;
+}
+.arc-nav-list li {
+  opacity: 0; transform: translate(18px, -8px) scale(0.94);
+  transition: opacity 0.4s var(--ease), transform 0.45s var(--ease);
+}
+.arc-nav-list li:nth-child(1) { transform: translate(2px, -8px) scale(0.94); }
+.arc-nav-list li:nth-child(2) { transform: translate(10px, -8px) scale(0.94); }
+.arc-nav-list li:nth-child(3) { transform: translate(18px, -8px) scale(0.94); }
+.arc-nav-list li:nth-child(4) { transform: translate(24px, -8px) scale(0.94); }
+.arc-nav-list li:nth-child(5) { transform: translate(30px, -8px) scale(0.94); }
+.arc-nav-list li:nth-child(6) { transform: translate(36px, -8px) scale(0.94); }
+.arc-nav.is-open .arc-nav-list li { opacity: 1; transform: translate(0,0) scale(1); }
+.arc-nav-list a {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--noche-2); border: 1px solid var(--linea);
+  padding: 0.65rem 1.15rem; border-radius: 999px;
+  font-family: var(--display); font-size: 1.15rem; white-space: nowrap;
+  box-shadow: 0 0.75rem 1.75rem rgba(0,0,0,0.35);
+}
+.arc-nav-list a:hover, .arc-nav-list a:focus-visible, .arc-nav-list a.is-active {
+  border-color: var(--laton); color: var(--laton-tenue);
+}
+.arc-nav-list .arc-num { font-family: var(--sans); font-size: 0.68rem; color: var(--hueso-mas-tenue); }
+.arc-scrim {
+  position: fixed; inset: 0; z-index: 98; background: rgba(11,14,26,0.4);
+  opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease);
+}
+.arc-nav.is-open ~ .arc-scrim, .arc-scrim.is-open { opacity: 1; pointer-events: auto; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: center;
+  overflow: hidden; padding-top: var(--nav-h);
+  background:
+    radial-gradient(120% 80% at 78% 30%, var(--noche-3) 0%, transparent 60%),
+    var(--noche);
+}
+.hero-scene-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.1s var(--ease); }
+.hero.is-animated .hero-scene-canvas { opacity: 1; }
+.hero-fallback-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(46% 46% at 78% 60%, color-mix(in srgb, var(--laton) 22%, transparent) 0%, transparent 70%);
+}
+.hero.is-animated .hero-fallback-glow { display: none; }
+
+.hero-content { position: relative; z-index: 2; padding: 6rem 0 5rem; transform-style: preserve-3d; }
+.hero-eyebrow { margin-bottom: 1.4rem; }
+.hero-title {
+  font-family: var(--display); font-weight: 600; color: var(--hueso);
+  font-size: clamp(3rem, 9vw, 6.4rem); line-height: 0.98; letter-spacing: -0.01em;
+  max-width: 20ch;
+}
+.hero-title em { font-style: italic; color: var(--laton-tenue); }
+.split-word { display: inline-block; overflow: hidden; vertical-align: top; }
+.split-word > span { display: inline-block; }
+
+.hero-claim {
+  margin-top: 1.6rem; max-width: 34rem; font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--hueso-tenue); line-height: 1.7;
+}
+.hero-actions { margin-top: 2.4rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+.hero-meta { margin-top: 2.6rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.hero-chip {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  border: 1px solid var(--linea); border-radius: 999px; padding: 0.5rem 1rem;
+  font-size: 0.82rem; color: var(--hueso-tenue);
+}
+.hero-chip .placeholder-tag { color: var(--laton-tenue); font-style: italic; }
+
+.scroll-cue {
+  position: absolute; left: 50%; bottom: 2.2rem; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--hueso-mas-tenue);
+}
+.scroll-cue .spiral-mini { width: 20px; height: 20px; animation: spin-slow 6s linear infinite; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+
+/* ---------- Placeholder tags (dato pendiente) ---------- */
+.pending {
+  color: var(--laton-tenue); font-style: italic; font-size: 0.85em;
+  border-bottom: 1px dashed color-mix(in srgb, var(--laton) 55%, transparent);
+}
+.pending-banner {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: color-mix(in srgb, var(--laton) 12%, transparent);
+  border: 1px dashed color-mix(in srgb, var(--laton) 45%, transparent);
+  color: var(--laton-tenue); padding: 0.7rem 1.1rem; border-radius: 0.8rem;
+  font-size: 0.85rem; margin-top: 1.1rem;
+}
+
+/* ---------- Secciones genéricas ---------- */
+section { position: relative; padding: 7rem 0; }
+.section-head { max-width: 40rem; position: relative; z-index: 1; }
+.section-head h2 {
+  margin-top: 1rem; font-family: var(--display); font-weight: 600;
+  font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.05; color: var(--hueso);
+}
+.section-head p { margin-top: 1.1rem; font-size: 1.05rem; color: var(--hueso-tenue); line-height: 1.7; }
+.section-index {
+  font-family: var(--display); font-style: italic; font-size: 1rem; color: var(--hueso-mas-tenue);
+}
+
+/* ---------- La Caracola (sobre el negocio) ---------- */
+.caracola-section { background: var(--noche); overflow: clip; }
+.caracola-grid { margin-top: 3.5rem; display: grid; gap: 3rem; position: relative; z-index: 1; }
+@media (min-width: 56rem) { .caracola-grid { grid-template-columns: 1.05fr 0.95fr; align-items: center; } }
+.nautilus-figure { position: relative; aspect-ratio: 1; max-width: 30rem; margin: 0 auto; }
+.nautilus-figure svg { width: 100%; height: 100%; }
+.caracola-note { margin-top: 2rem; display: grid; gap: 1.1rem; }
+.caracola-note li { display: flex; gap: 0.9rem; font-size: 0.98rem; color: var(--hueso-tenue); }
+.caracola-note li::before {
+  content: ""; flex: none; width: 6px; height: 6px; margin-top: 0.55rem; border-radius: 50%;
+  background: var(--laton);
+}
+
+/* ---------- Destacado (foco tipo linterna) ---------- */
+.destacado-section { background: var(--noche-2); }
+.spotlight {
+  position: relative; border-radius: 1.5rem; border: 1px solid var(--linea);
+  padding: 3.5rem 2rem; margin-top: 3rem; overflow: hidden; text-align: center;
+  background: var(--noche);
+}
+.spotlight::before {
+  content: ""; position: absolute; inset: 0; opacity: 0.9;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), color-mix(in srgb, var(--laton) 26%, transparent) 0%, transparent 65%);
+  transition: opacity 0.3s var(--ease);
+}
+.spotlight-inner { position: relative; z-index: 1; }
+.spotlight .eyebrow { justify-content: center; }
+.spotlight h3 {
+  margin-top: 1rem; font-family: var(--display); font-weight: 600;
+  font-size: clamp(1.8rem, 4vw, 2.8rem); color: var(--hueso);
+}
+.spotlight p { margin-top: 1rem; max-width: 34rem; margin-inline: auto; color: var(--hueso-tenue); }
+
+/* ---------- Carta: cámaras de la caracola ----------
+   La carta no llegó todavía (ver README), así que en vez de inventar
+   platos se presenta la ESTRUCTURA como las cámaras de una concha en
+   sección: cada cámara es una categoría a la espera de contenido real.
+   Deliberadamente distinto de la rejilla de fotos de Melao, la hoja
+   impresa de A Taberna do Rio, el foco+índice de O Logradouro, las
+   tarjetas-sello de O Carballo y el carril de comandas de A Lareira. */
+.carta-section { background: var(--noche); }
+.carta-diagram { position: relative; margin-top: 3.5rem; }
+.carta-chambers {
+  position: relative; z-index: 1; display: grid; gap: 1.1rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+.chamber {
+  border: 1px solid var(--linea); border-radius: 1.1rem; padding: 1.6rem 1.5rem;
+  background: var(--noche-2); transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.chamber:hover { border-color: var(--laton); transform: translateY(-3px); }
+.chamber .chamber-num { font-family: var(--display); font-style: italic; color: var(--hueso-mas-tenue); font-size: 0.95rem; }
+.chamber h3 { margin-top: 0.6rem; font-family: var(--display); font-size: 1.4rem; color: var(--hueso); }
+.chamber p { margin-top: 0.55rem; font-size: 0.88rem; color: var(--hueso-tenue); }
+.chamber .pending { display: inline-block; margin-top: 0.75rem; }
+
+/* ---------- Horario: esfera circular ----------
+   Distinta del "reloj" lineal de A Taberna do Rio y del clock-card de
+   A Lareira: un dial circular de 24h con el arco de apertura (cuando haya
+   dato real) y una marca de "ahora" orbitando. */
+.horario-section { background: var(--noche-2); }
+.horario-grid { margin-top: 3.5rem; display: grid; gap: 3rem; align-items: center; }
+@media (min-width: 56rem) { .horario-grid { grid-template-columns: auto 1fr; } }
+.dial-wrap { position: relative; width: min(20rem, 80vw); aspect-ratio: 1; margin: 0 auto; }
+.dial-wrap svg { width: 100%; height: 100%; }
+.dial-center {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 0.35rem;
+}
+.dial-center .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--laton); box-shadow: 0 0 0.7rem var(--laton); }
+.dial-center strong { font-family: var(--display); font-size: 1.2rem; color: var(--hueso); }
+.dial-center span { font-size: 0.78rem; color: var(--hueso-mas-tenue); }
+.horario-list { display: grid; gap: 0.6rem; }
+.horario-list li {
+  display: flex; justify-content: space-between; gap: 1rem;
+  padding: 0.7rem 0; border-bottom: 1px solid var(--linea-suave);
+  font-size: 0.95rem; color: var(--hueso-tenue);
+}
+.horario-list li strong { color: var(--hueso); font-weight: 500; }
+
+/* ---------- Reseñas: estela curva ----------
+   En vez del anillo cónico (A Taberna do Rio/O Carballo), el carrusel de
+   una tarjeta (Melao v2) o el sello numérico (A Lareira): una fila de
+   citas que sigue un arco suave (cada tarjeta con su propio offset
+   vertical/rotación según su posición) en scroll horizontal — la "estela"
+   que deja la concha al arrastrarse. */
+.resenas-section { background: var(--noche); }
+.rating-meter { display: flex; align-items: center; gap: 1.4rem; margin-top: 1.5rem; }
+.rating-meter svg { width: 5.5rem; height: 5.5rem; flex: none; }
+.rating-meter-text strong { display: block; font-family: var(--display); font-size: 1.4rem; color: var(--hueso); }
+.rating-meter-text span { font-size: 0.85rem; color: var(--hueso-mas-tenue); }
+
+.estela-track {
+  margin-top: 3.5rem; display: flex; gap: 1.5rem; overflow-x: auto;
+  scroll-snap-type: x proximity; padding: 1.5rem 0.5rem 2.5rem;
+  scrollbar-width: thin; scrollbar-color: var(--laton) transparent;
+}
+.estela-track::-webkit-scrollbar { height: 6px; }
+.estela-track::-webkit-scrollbar-thumb { background: var(--laton); border-radius: 999px; }
+.estela-card {
+  flex: 0 0 min(21rem, 82vw); scroll-snap-align: start;
+  border: 1px solid var(--linea); border-radius: 1.2rem; padding: 1.9rem 1.7rem;
+  background: var(--noche-2);
+  transform: translateY(var(--wave, 0));
+}
+.estela-card .quote-mark { font-family: var(--display); font-size: 2.4rem; color: var(--laton-tenue); opacity: 0.6; line-height: 1; }
+.estela-card p { margin-top: 0.7rem; font-size: 1rem; color: var(--hueso-tenue); line-height: 1.6; font-style: italic; }
+.estela-card footer { margin-top: 1.1rem; font-size: 0.85rem; color: var(--hueso-mas-tenue); }
+
+/* ---------- Contacto: cierre a sangre completa ---------- */
+.contacto-section {
+  padding: 8rem 0; background: radial-gradient(120% 100% at 50% 0%, var(--noche-3) 0%, var(--noche) 65%);
+}
+.contacto-grid { margin-top: 3.5rem; display: grid; gap: 2.5rem; }
+@media (min-width: 56rem) { .contacto-grid { grid-template-columns: 1fr 1fr; } }
+.info-list { display: grid; gap: 1.5rem; }
+.info-list li { border-bottom: 1px solid var(--linea-suave); padding-bottom: 1.3rem; }
+.info-list .label { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--hueso-mas-tenue); }
+.info-list .value { margin-top: 0.4rem; font-family: var(--display); font-size: 1.3rem; color: var(--hueso); }
+.map-card {
+  position: relative; border-radius: 1.2rem; border: 1px dashed color-mix(in srgb, var(--laton) 40%, transparent);
+  min-height: 18rem; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 2rem; background: var(--noche-2);
+}
+.map-card iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 1.2rem; }
+.map-card .map-consent { color: var(--laton-tenue); font-size: 0.95rem; }
+
+/* ---------- Pie ---------- */
+.site-footer { border-top: 1px solid var(--linea-suave); padding: 3.5rem 0 2.5rem; background: var(--noche); }
+.footer-grid { display: grid; gap: 2rem; }
+@media (min-width: 48rem) { .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; } }
+.footer-brand { font-family: var(--display); font-size: 1.3rem; color: var(--hueso); }
+.footer-brand p { margin-top: 0.8rem; font-size: 0.88rem; color: var(--hueso-mas-tenue); max-width: 22rem; }
+.footer-nav h4, .footer-contact h4 { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--hueso-mas-tenue); margin-bottom: 1rem; }
+.footer-nav ul, .footer-contact ul { display: grid; gap: 0.6rem; }
+.footer-nav a, .footer-contact a { font-size: 0.92rem; color: var(--hueso-tenue); }
+.footer-nav a:hover, .footer-nav a.is-active, .footer-contact a:hover { color: var(--laton-tenue); }
+.footer-bottom {
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--linea-suave);
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
+  font-size: 0.78rem; color: var(--hueso-mas-tenue);
+}
+
+/* ---------- FAB de reserva/llamada ---------- */
+.call-fab {
+  position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 90;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--laton); color: var(--tinta-papel); padding: 0.85rem 1.3rem;
+  border-radius: 999px; font-weight: 600; font-size: 0.88rem;
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.4);
+  opacity: 0; transform: translateY(14px) scale(0.94); pointer-events: none;
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), background 0.25s var(--ease);
+}
+.call-fab.is-visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.call-fab[aria-disabled="true"] { background: var(--noche-3); color: var(--hueso-tenue); }
+.call-fab .fab-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tinta-papel); }
+
+/* ---------- Progreso de espiral (esquina, decorativo) ---------- */
+.spiral-gauge {
+  position: fixed; left: 1.1rem; bottom: 1.25rem; z-index: 90; width: 3.4rem; height: 3.4rem;
+  opacity: 0; transition: opacity 0.4s var(--ease); pointer-events: none;
+}
+.spiral-gauge.is-visible { opacity: 1; }
+.spiral-gauge svg { width: 100%; height: 100%; }
+.spiral-gauge circle.track { stroke: var(--linea); }
+.spiral-gauge circle.fill { stroke: var(--laton); transition: stroke-dashoffset 0.1s linear; }
+
+/* ---------- Cursor personalizado ---------- */
+.cursor-ring, .cursor-dot { position: fixed; top: 0; left: 0; z-index: 999; pointer-events: none; border-radius: 50%; opacity: 0; transition: opacity 0.2s, width 0.2s, height 0.2s, border-color 0.2s; }
+.cursor-ring { width: 34px; height: 34px; margin: -17px; border: 1.5px solid var(--laton-tenue); }
+.cursor-dot { width: 5px; height: 5px; margin: -2.5px; background: var(--laton); }
+.cursor-ring.is-visible, .cursor-dot.is-visible { opacity: 1; }
+.cursor-ring.is-hover { width: 54px; height: 54px; margin: -27px; border-color: var(--laton-vivo); }
+body.custom-cursor-active, body.custom-cursor-active * { cursor: none !important; }
+@media (pointer: coarse) { .cursor-ring, .cursor-dot { display: none; } }
+
+/* ---------- Reveals (JS añade estado inicial vía GSAP) ---------- */
+[data-reveal-group] { position: relative; }
+
+/* ---------- Accesibilidad / reducción de movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+body.motion-reduced .hero-scene-canvas { display: none; }
+body.motion-reduced .hero-fallback-glow { display: block; }
+
+/* ---------- Responsive ajustes finos ---------- */
+@media (max-width: 40rem) {
+  section { padding: 5rem 0; }
+  .arc-nav { top: calc(var(--nav-h) - 0.25rem); right: 0.75rem; }
+  .spiral-gauge { display: none; }
+}

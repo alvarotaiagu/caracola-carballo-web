@@ -1,0 +1,15 @@
+{
+  "name": "Café-Bar Caracola — Carballo",
+  "short_name": "Caracola",
+  "description": "Café-Bar en Carballo. Web pensada para sobremesas largas — mesa, barra y noche.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B0E1A",
+  "theme_color": "#0B0E1A",
+  "lang": "es",
+  "icons": [
+    { "src": "assets/img/logo/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/logo/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
