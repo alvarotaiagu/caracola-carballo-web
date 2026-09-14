@@ -1,7 +1,8 @@
 """Genera assets/img/web/og-image.jpg: noche marina + resplandor de núcleo
 + el wordmark "CARACOLA", dibujado a mano con PIL (misma autoría que la
-marca — ver generate_brand_mark.py), sin fotografía ni logo ajeno ni datos
-inventados (sin cifra de valoración: no hay una real todavía)."""
+marca — ver generate_brand_mark.py), sin fotografía ni logo ajeno. La
+valoración (4,3★ · 504 reseñas) es la real de la ficha de Google del
+negocio."""
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 import math
 import os
@@ -54,7 +55,7 @@ draw.text((118, 118), "CAFÉ-BAR · CARBALLO", font=eyebrow_font, fill=(224, 187
 # Title
 draw.text((86, 172), "CARACOLA", font=title_font, fill=HUESO)
 
-# Subtitle (positioning honesto, sin cifras ni datos no confirmados)
+# Subtitle
 draw.text(
     (92, 320),
     "Sobremesas largas junto al mar de la noche.",
@@ -63,7 +64,7 @@ draw.text(
 )
 draw.text(
     (92, 364),
-    "Café-Bar en Carballo.",
+    "Café-Bar en Carballo · 4,3/5 (504 reseñas en Google)",
     font=sub_font,
     fill=(196, 189, 172),
 )

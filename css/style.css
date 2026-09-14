@@ -234,6 +234,7 @@ body.has-cookie-banner { padding-bottom: 0; }
   font-size: 0.82rem; color: var(--hueso-tenue);
 }
 .hero-chip .placeholder-tag { color: var(--laton-tenue); font-style: italic; }
+.hero-chip .hero-chip-muted { color: var(--hueso-mas-tenue); }
 
 .scroll-cue {
   position: absolute; left: 50%; bottom: 2.2rem; transform: translateX(-50%);
@@ -338,6 +339,7 @@ section { position: relative; padding: 7rem 0; }
   align-items: center; justify-content: center; text-align: center; gap: 0.35rem;
 }
 .dial-center .status-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--laton); box-shadow: 0 0 0.7rem var(--laton); }
+.dial-center[data-closed] .status-dot { background: var(--hueso-tenue); box-shadow: none; }
 .dial-center strong { font-family: var(--display); font-size: 1.2rem; color: var(--hueso); }
 .dial-center span { font-size: 0.78rem; color: var(--hueso-mas-tenue); }
 .horario-list { display: grid; gap: 0.6rem; }

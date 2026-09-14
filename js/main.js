@@ -67,9 +67,7 @@ function initCookieBanner() {
 }
 initCookieBanner();
 
-/* ---------- Botón flotante de reserva/llamada ----------
-   Sin teléfono confirmado todavía (ver README): el botón se muestra en
-   estado deshabilitado y enlaza a #contacto en vez de a un tel: falso. */
+/* ---------- Botón flotante de reserva/llamada (tel: real) ---------- */
 function initCallFab() {
   const fab = document.querySelector(".call-fab");
   const hero = document.querySelector(".hero");
@@ -90,26 +88,45 @@ function initCallFab() {
 }
 initCallFab();
 
-/* ---------- Mapa: solo carga el iframe (y sus cookies) de Google al clic,
-   y solo si hay una dirección real que apuntar (ver README: pendiente) ---------- */
-function initMapConsent() {
-  document.querySelectorAll(".map-consent").forEach((btn) => {
-    btn.addEventListener(
-      "click",
-      () => {
-        if (!btn.dataset.mapSrc) return;
-        const iframe = document.createElement("iframe");
-        iframe.title = btn.dataset.mapTitle || "Mapa";
-        iframe.src = btn.dataset.mapSrc;
-        iframe.loading = "lazy";
-        iframe.referrerPolicy = "no-referrer-when-downgrade";
-        btn.replaceWith(iframe);
-      },
-      { once: true }
-    );
-  });
+/* ---------- Horario: esfera con "abierto ahora" en directo ----------
+   Horario real (ficha de Google): L-J 6:30-24:00, V 6:30-1:00, S 8:00-1:00,
+   D cerrado. Los cierres "a la 1:00" se tratan como hora 25 para poder
+   comparar contra la madrugada del día siguiente. */
+function initOpenStatus() {
+  const indicator = document.querySelector("[data-open-indicator]");
+  if (!indicator) return;
+  const label = indicator.querySelector("[data-open-label]");
+  const detail = indicator.querySelector("[data-open-detail]");
+  if (!label || !detail) return;
+
+  const RANGES = [null, [6.5, 24], [6.5, 24], [6.5, 24], [6.5, 24], [6.5, 25], [8, 25]];
+  const TODAY_TEXT = [
+    "Cerrado hoy",
+    "Hoy 6:30 – 24:00",
+    "Hoy 6:30 – 24:00",
+    "Hoy 6:30 – 24:00",
+    "Hoy 6:30 – 24:00",
+    "Hoy 6:30 – 1:00",
+    "Hoy 8:00 – 1:00",
+  ];
+
+  function update() {
+    const now = new Date();
+    const day = now.getDay();
+    const hours = now.getHours() + now.getMinutes() / 60;
+    const prevRange = RANGES[(day + 6) % 7];
+    const spillover = !!prevRange && prevRange[1] > 24 && hours < prevRange[1] - 24;
+    const todayRange = RANGES[day];
+    const openToday = !!todayRange && hours >= todayRange[0] && hours < todayRange[1];
+    const open = openToday || spillover;
+    indicator.toggleAttribute("data-closed", !open);
+    label.textContent = open ? "Abierto ahora" : "Cerrado ahora";
+    detail.textContent = spillover ? "Cierra a la 1:00" : TODAY_TEXT[day];
+  }
+  update();
+  setInterval(update, 60000);
 }
-initMapConsent();
+initOpenStatus();
 
 /* ---------- Nav en arco ----------
    El botón-marca despliega un arco de enlaces (ver css .arc-nav) en vez de
